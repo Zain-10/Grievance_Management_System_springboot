@@ -22,13 +22,15 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username)
                         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            System.out.println(user);
+
             String role = "ROLE_" + user.getRole().name();
 
-            return new org.springframework.security.core.userdetails.User(
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                     user.getEmail(),
                     user.getPassword(),
                     Collections.singleton(new SimpleGrantedAuthority(role))
             );
+        System.out.println(userDetails);
+        return userDetails;
     }
 }

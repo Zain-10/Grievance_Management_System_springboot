@@ -17,7 +17,7 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "ENUM('USER','ASSIGNEE','SUPERVISOR') DEFAULT 'USER'")
+    @Column(nullable = false)
     private Roles role = Roles.USER;
 
     public String getName() {
@@ -37,7 +37,7 @@ public class User {
     }
 
     public void setRole(Roles role) {
-        role = Roles.USER;
+        this.role = role;
     }
 
     public void setPassword(String password) {

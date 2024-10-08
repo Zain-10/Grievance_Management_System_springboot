@@ -33,6 +33,17 @@ public class GrievanceController {
         return ResponseEntity.ok("Grievance Submitted successfully");
     }
 
+    @GetMapping ("/user/{email}")
+    public ResponseEntity<List<Grievance>> getGrievanceByEmail(@PathVariable String email){
+        try{
+            List<Grievance> grievances = grievanceService.getGrievanceByEmail(email);
+            return ResponseEntity.ok(grievances);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);// Replace with proper logging
+        }
+    }
+
     @GetMapping ("/assignee/{name}")
     public ResponseEntity<List<Grievance>> getGrievanceByAssignee(@PathVariable String name){
         try{
@@ -51,8 +62,8 @@ public class GrievanceController {
     }
 
     @PutMapping ("/status/{id}")
-    public ResponseEntity<String> updateStatus(@PathVariable Long id){
-        grievanceService.updateStatus(id);
+    public ResponseEntity<String> updateStatus(@PathVariable Long id,@RequestBody Grievance grievance){
+        grievanceService.updateStatus(id,grievance);
         return ResponseEntity.ok("status updated");
     }
 

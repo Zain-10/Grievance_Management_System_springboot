@@ -2,20 +2,23 @@ package org.example.entities;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Grievance {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String email;
     private String address;
     private String category;
 
     @CreatedDate
-    @Column(updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
+    @Column(updatable = false, nullable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP")
     private Instant createdAt;
 
     @Column(length=150)
@@ -23,8 +26,11 @@ public class Grievance {
 
     private String assignee;
 
-    @Column(name = "status", columnDefinition = "VARCHAR(20) DEFAULT 'not resolved'")
-    private String status="not resolved";
+    @Column(name = "status")
+    private String status="PENDING";
+
+    @Column(length=150)
+    private String feedback;
 
     public Grievance() {
 
@@ -40,6 +46,14 @@ public class Grievance {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getAddress() {
@@ -60,10 +74,6 @@ public class Grievance {
 
     public Instant getCreatedAt() {
         return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
     }
 
     public String getComplaint() {
@@ -88,5 +98,13 @@ public class Grievance {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 }

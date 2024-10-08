@@ -40,15 +40,26 @@ public class GrievanceService {
         }
     }
 
+    public static List<Grievance> getGrievanceByEmail(String email) {
+        try {
+            return grievanceRepository.findByEmail(email);
+        } catch (Exception e) {
+            // Log the exception and handle it appropriately
+            e.printStackTrace(); // Replace with proper logging
+            return List.of(); // Return an empty list or handle it as needed
+        }
+    }
+
     public static void updateAssignee(Long id,Grievance assigneeDetails){
         Grievance grievance = grievanceRepository.findById(id).orElseThrow(() -> new RuntimeException("Grievance not found"));
         grievance.setAssignee(assigneeDetails.getAssignee());
         grievanceRepository.save(grievance);
     }
 
-    public static void updateStatus(Long id){
+    public static void updateStatus(Long id,Grievance statusDetails){
         Grievance grievance = grievanceRepository.findById(id).orElseThrow(() -> new RuntimeException("Grievance not found"));
-        grievance.setStatus("resolved");
+        grievance.setStatus(statusDetails.getStatus());
+        grievance.setFeedback(statusDetails.getFeedback());
         grievanceRepository.save(grievance);
     }
 }

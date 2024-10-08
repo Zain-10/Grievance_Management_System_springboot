@@ -10,4 +10,7 @@ import java.util.List;
 public interface GrievanceRepository extends JpaRepository<Grievance, Long> {
     @Query("SELECT e FROM Grievance e WHERE e.assignee = :name")
     List<Grievance> findByName(@Param("name") String name);
+
+    @Query("SELECT e FROM Grievance e WHERE e.email = :email")
+    List<Grievance> findByEmail(@Param("email") String email);
 }
